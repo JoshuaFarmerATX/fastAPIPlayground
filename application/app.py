@@ -4,12 +4,12 @@ from pymysql.cursors import DictCursorMixin, Cursor
 from pprint import pprint
 from fastapi import FastAPI
 import uvicorn
-from connection import conn_string_proxy, conn_string_deploy
+from connection import conn_string_deploy
 
 #Change mydb to conn_string_proxy when connecting locally
 #via proxy and to conn_string_deploy when being uploaded for GCP.
 
-mydb = conn_string_proxy
+mydb = conn_string_deploy
 
 class OrderedDictCursor(DictCursorMixin, Cursor):
     dict_type = OrderedDict
