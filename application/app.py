@@ -424,6 +424,14 @@ async def most_recent_dead_by_a_specific_county_in_a_specific_state(state, count
     return cursor.fetchall()
 
 
+# API Route 45-1: Timeseries Everything
+@app.get("/API/us/timeseries/everything", tags=["USA/States Time Series"])
+async def all_timeseries_data():
+    cursor.execute(
+        "SELECT province_state AS State, county_city as County, date AS 'Totals as of Date', confirmed AS Cases, deaths AS Deaths FROM usa_covid19 WHERE (province_state <> 'Grand Princess' and province_state <> 'Diamond Princess' and province_state <> 'American Samoa' and province_state <> 'Guam' and province_state <> 'Northern Mariana Islands' and province_state <> 'Puerto Rico' and province_state <> 'Virgin Islands')"
+    )
+    return cursor.fetchall()
+
 # API Route 45: Timeseries by State
 @app.get("/API/us/timeseries/totals/{state}", tags=["USA/States Time Series"])
 async def timeseries_by_specific_state(state):
