@@ -35,9 +35,9 @@ def home():
 @app.route("/cases/<int:num>/")
 def predictedcases(num):
     days = num
-    return ((predictcases(days)).to_json())
+    return ((predictcases(days)).to_json(orient = "records", date_format = "iso"))
 
 @app.route("/deaths/<int:num>/")
 def predicteddeaths(num):
     days = num
-    return ((predictdeaths(days)).to_json())
+    return ((predictdeaths(days)).to_json(orient = "records", date_format = "iso"))
