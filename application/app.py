@@ -138,7 +138,7 @@ async def global_timeseries_for_number_of_recoveries():
 @app.get("/API/timeseries/{iso3_code}", tags=["Global Time Series"])
 async def timeseries_by_country_selection_using_iso3_code(iso3_code):
     cursor.execute(
-        f"SELECT iso3 AS ISO3, country_region AS Country, date as 'Total Results as of Date', confirmed AS Cases, deaths AS Deaths, recovered AS Recovered FROM daily_cases WHERE iso3 = '{iso3_code}'"
+        f"SELECT iso3 AS ISO3, country_region AS Country, date as 'Totals as of Date', confirmed AS Cases, deaths AS Deaths, recovered AS Recovered FROM daily_cases WHERE iso3 = '{iso3_code}'"
     )
     return cursor.fetchall()
 
@@ -420,15 +420,6 @@ async def most_recent_cases_by_a_specific_county_in_a_specific_state(state, coun
 async def most_recent_dead_by_a_specific_county_in_a_specific_state(state, county):
     cursor.execute(
         f"SELECT province_state AS State, county_city as County, date AS 'Last Update', deaths AS Deaths FROM usa_covid19 WHERE date = (SELECT MAX(date) FROM daily_cases) and province_state = '{state}' and county_city = '{county}'"
-    )
-    return cursor.fetchall()
-
-
-# API Route 45-1: Timeseries Everything
-@app.get("/API/us/timeseries/everything", tags=["USA/States Time Series"])
-async def all_timeseries_data():
-    cursor.execute(
-        "SELECT province_state AS State, county_city as County, date AS 'Totals as of Date', confirmed AS Cases, deaths AS Deaths FROM usa_covid19 WHERE (province_state <> 'Grand Princess' and province_state <> 'Diamond Princess' and province_state <> 'American Samoa' and province_state <> 'Guam' and province_state <> 'Northern Mariana Islands' and province_state <> 'Puerto Rico' and province_state <> 'Virgin Islands')"
     )
     return cursor.fetchall()
 
